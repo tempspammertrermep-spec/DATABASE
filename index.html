@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Enter Your Key here</title>
+  <script src="gate.js" defer></script>
+  <style>
+    body {
+      font-family: monospace;
+      background: #121212;
+      color: #00ff00;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    input { padding: 10px; margin-right: 10px; }
+    button { padding: 10px 20px; cursor: pointer; }
+    .console {
+      width: 400px;
+      height: 150px;
+      background: #000;
+      color: #00ff00;
+      border: 2px solid #00ff00;
+      margin-top: 20px;
+      padding: 10px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>Unity Asset Portal</h1>
+  <p>Enter your key to continue:</p>
+  <input id="keyInput" type="text" placeholder="Enter your key">
+  <button id="submitKey">Enter</button>
+  <div id="result-console" class="console"></div>
+</body>
+</html>

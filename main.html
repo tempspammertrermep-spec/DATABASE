@@ -2,29 +2,282 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Unity Asset Portal</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Phantom Troupe Archives</title>
   <script src="main.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <style>
+    /* Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Courier New', monospace;
+      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+      color: #00ff00;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Particle canvas behind content */
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    /* Top header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 10;
+      box-shadow: 0 2px 5px rgba(0,255,0,0.2);
+    }
+
+    header h1 {
+      color: #00ff00;
+      font-size: 1.5rem;
+      text-shadow: 0 0 5px #00ff00;
+    }
+
+    /* Dropdown menu */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown button {
+      background: #000;
+      color: #00ff00;
+      padding: 10px 15px;
+      border: 1px solid #00ff00;
+      cursor: pointer;
+      border-radius: 5px;
+      font-family: monospace;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #000;
+      border: 1px solid #00ff00;
+      min-width: 160px;
+      z-index: 20;
+      border-radius: 5px;
+      margin-top: 5px;
+    }
+
+    .dropdown-content a {
+      color: #00ff00;
+      padding: 10px 15px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #111;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    /* Sidebar */
+    aside {
+      position: fixed;
+      top: 60px;
+      right: 0;
+      width: 180px;
+      height: calc(100vh - 60px);
+      background: #000;
+      border-left: 2px solid #00ff00;
+      padding-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    aside a {
+      color: #00ff00;
+      text-decoration: none;
+      padding: 10px 15px;
+      border-left: 3px solid transparent;
+      transition: all 0.3s;
+    }
+
+    aside a:hover {
+      background: #111;
+      border-left: 3px solid #00ff00;
+    }
+
+    /* Main content */
+    main {
+      margin-top: 80px;
+      margin-right: 200px; /* leave space for sidebar */
+      padding: 20px;
+    }
+
+    .asset-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+    }
+
+    .asset-card {
+      background: rgba(0,0,0,0.7);
+      border: 2px solid #00ff00;
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .asset-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 15px #00ff00;
+    }
+
+    .asset-card img {
+      width: 100%;
+      border-bottom: 2px solid #00ff00;
+      border-radius: 5px;
+    }
+
+    .asset-card button {
+      margin-top: 10px;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      background: #00ff00;
+      color: #000;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .asset-card button:hover {
+      background: #00ff88;
+    }
+
+    /* CMD-style console for download messages */
+    #result-console {
+      width: 100%;
+      max-width: 900px;
+      height: 150px;
+      background: rgba(0,0,0,0.8);
+      border: 2px solid #00ff00;
+      margin-top: 25px;
+      padding: 15px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      border-radius: 8px;
+      box-shadow: 0 0 15px #00ff0050;
+    }
+
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Unity Asset Portal</h1>
-  </header>
 
-  <main>
-    <section id="assets">
-      <div class="asset-card">
-        <img src="assets/asset1.png" alt="Asset 1">
-        <h2>Asset 1</h2>
-        <p>Short description of the asset.</p>
-        <button class="download-btn" data-asset="unity-asset.zip">Download</button>
+<div id="particles-js"></div>
+
+<header>
+  <h1>Phantom Troupe</h1>
+  <div style="display:flex; gap:10px;">
+    <div class="dropdown">
+      <button>Menu</button>
+      <div class="dropdown-content">
+        <a href="/">Home</a>
+        <a href="/avatars.html">Avatars</a>
+        <a href="/assets.html">Assets</a>
+        <a href="/shaders.html">Shaders</a>
+        <a href="/audios.html">Audios</a>
+        <a href="/misc.html">Misc</a>
       </div>
-      <!-- Add more assets here -->
-    </section>
-  </main>
+    </div>
+  </div>
+</header>
 
-  <footer>
-    <p>© 2025 Your Name</p>
-  </footer>
+<aside>
+  <a href="/avatars.html">Avatars</a>
+  <a href="/assets.html">Assets</a>
+  <a href="/shaders.html">Shaders</a>
+  <a href="/audios.html">Audios</a>
+  <a href="/misc.html">Misc</a>
+</aside>
+
+<main>
+  <h2>Avatars</h2>
+  <div class="asset-grid">
+    <!-- Example avatar cards -->
+    <div class="asset-card">
+      <img src="avatars/avatar1.png" alt="Avatar 1">
+      <button class="download-btn" data-asset="avatar1.glb">Download</button>
+    </div>
+    <div class="asset-card">
+      <img src="avatars/avatar2.png" alt="Avatar 2">
+      <button class="download-btn" data-asset="avatar2.glb">Download</button>
+    </div>
+    <div class="asset-card">
+      <img src="avatars/avatar3.png" alt="Avatar 3">
+      <button class="download-btn" data-asset="avatar3.glb">Download</button>
+    </div>
+    <!-- Add more avatars as needed -->
+  </div>
+
+  <div id="result-console"></div>
+</main>
+
+<script>
+  /* Initialize particles.js */
+  particlesJS("particles-js", {
+    "particles": {
+      "number": { "value": 100 },
+      "color": { "value": "#00ff00" },
+      "shape": { "type": "circle" },
+      "opacity": { "value": 0.8 },
+      "size": { "value": 3 },
+      "line_linked": {
+        "enable": true,
+        "distance": 150,
+        "color": "#00ff00",
+        "opacity": 0.3,
+        "width": 1
+      },
+      "move": {
+        "enable": true,
+        "speed": 1,
+        "direction": "bottom",
+        "random": true,
+        "straight": false
+      }
+    },
+    "interactivity": {
+      "detect_on": "canvas",
+      "events": {
+        "onhover": { "enable": true, "mode": "grab" },
+        "onclick": { "enable": false }
+      },
+      "modes": {
+        "grab": { "distance": 180, "line_linked": { "opacity": 0.5 } }
+      }
+    },
+    "retina_detect": true
+  });
+</script>
+
 </body>
 </html>
